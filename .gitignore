@@ -1,0 +1,220 @@
+# ===================================
+# PROYECTO PUSH NOTIFICATIONS
+# ===================================
+
+# Archivos de configuración sensibles
+backend/.env
+backend/*.env
+backend/.env.*
+
+# Credenciales Firebase
+backend/push-notifications-app.json
+backend/*firebase*.json
+backend/service-account*.json
+
+# ===================================
+# PYTHON
+# ===================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===================================
+# FLUTTER / ANDROID
+# ===================================
+
+# Flutter/Dart/Pub related
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/.pub-cache/
+frontend/.pub/
+frontend/build/
+
+# Android related
+frontend/android/**/gradle-wrapper.jar
+frontend/android/.gradle
+frontend/android/captures/
+frontend/android/gradlew
+frontend/android/gradlew.bat
+frontend/android/local.properties
+frontend/android/**/GeneratedPluginRegistrant.java
+
+# Firebase config files (pueden contener keys)
+frontend/android/app/google-services.json
+frontend/ios/Runner/GoogleService-Info.plist
+
+# iOS related
+frontend/ios/**/*.mode1v3
+frontend/ios/**/*.mode2v3
+frontend/ios/**/*.moved-aside
+frontend/ios/**/*.pbxuser
+frontend/ios/**/*.perspectivev3
+frontend/ios/**/*sync/
+frontend/ios/**/.sconsign.dblite
+frontend/ios/**/.tags*
+frontend/ios/**/.vagrant/
+frontend/ios/**/DerivedData/
+frontend/ios/**/Icon?
+frontend/ios/**/Pods/
+frontend/ios/**/.symlinks/
+frontend/ios/**/profile
+frontend/ios/**/xcuserdata
+frontend/ios/.generated/
+frontend/ios/Flutter/App.framework
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/ios/Flutter/Generated.xcconfig
+frontend/ios/Flutter/app.flx
+frontend/ios/Flutter/app.zip
+frontend/ios/Flutter/flutter_assets/
+frontend/ios/Flutter/flutter_export_environment.sh
+frontend/ios/ServiceDefinitions.json
+frontend/ios/Runner/GeneratedPluginRegistrant.*
+
+# ===================================
+# BASE DE DATOS
+# ===================================
+
+# Scripts SQL con datos sensibles
+ddbb/*_prod.sql
+ddbb/*_production.sql
+ddbb/backup_*.sql
+ddbb/dump_*.sql
+
+# Archivos de configuración de BD
+ddbb/.env
+ddbb/config.ini
+ddbb/database.conf
+
+# ===================================
+# LOGS Y TEMPORALES
+# ===================================
+
+# Log files
+*.log
+logs/
+backend/logs/
+frontend/logs/
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Cache directories
+.cache/
+tmp/
+temp/
+
+# ===================================
+# DOCUMENTACIÓN GENERADA
+# ===================================
+
+# Archivos generados automáticamente
+docs/build/
+docs/_build/
+docs/site/
+
+# ===================================
+# ARCHIVOS DE PRODUCCIÓN
+# ===================================
+
+# APKs generados
+*.apk
+*.aab
+frontend/build/app/outputs/
+
+# Certificados
+*.p12
+*.jks
+*.keystore
+
+# Archivos de deployment
+deployment/
+.deploy/
+deploy.sh
+
+# ===================================
+# OTROS
+# ===================================
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+
+# Editor files
+*.sublime-project
+*.sublime-workspace
