@@ -5,7 +5,7 @@
 # Archivos de configuración sensibles
 backend/.env
 backend/*.env
-backend/.env.*
+# backend/.env.*
 
 # Credenciales Firebase
 backend/push-notifications-app.json

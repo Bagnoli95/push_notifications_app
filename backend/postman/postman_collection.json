@@ -1,0 +1,1134 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Push Notifications API",
+		"description": "Collection completa para probar la API de notificaciones push con FastAPI + Oracle + Firebase FCM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+        {
+			"name": "🏠 Health & Status",
+			"item": [
+				{
+					"name": "Root - API Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Endpoint raíz que muestra información básica de la API"
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Oracle connection status\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('oracle');",
+									"});",
+									"",
+									"pm.test(\"Firebase status\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('firebase');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Verifica el estado de Oracle, Firebase y configuración general"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para verificar el estado del sistema"
+		},
+        {
+			"name": "👤 User Management",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Registration successful\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('successfully');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{test_username}}\",\n    \"email\": \"{{test_email}}\",\n    \"password\": \"{{test_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario en el sistema"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has access token\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('access_token');",
+									"    pm.expect(jsonData).to.have.property('user_id');",
+									"    pm.expect(jsonData).to.have.property('username');",
+									"    ",
+									"    // Guardar token para requests siguientes",
+									"    pm.environment.set('auth_token', jsonData.access_token);",
+									"    pm.environment.set('user_id', jsonData.user_id);",
+									"    pm.environment.set('username', jsonData.username);",
+									"});",
+									"",
+									"pm.test(\"Token type is bearer\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.token_type).to.eql('bearer');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{test_username}}\",\n    \"password\": \"{{test_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Autentica un usuario y devuelve JWT token"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin (Predefined)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Admin login successful\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('access_token');",
+									"    ",
+									"    // Guardar token de admin",
+									"    pm.environment.set('admin_token', jsonData.access_token);",
+									"    pm.environment.set('admin_user_id', jsonData.user_id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Login con usuario admin predefinido"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para registro y autenticación de usuarios"
+		},
+        {
+			"name": "📱 Device Management",
+			"item": [
+				{
+					"name": "Register Device",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Device registered successfully\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('successfully');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fcm_token\": \"{{test_fcm_token}}\",\n    \"device_id\": \"{{test_device_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register-device",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register-device"
+							]
+						},
+						"description": "Registra un dispositivo con su token FCM para recibir notificaciones push"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Device - Update Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Token updated successfully\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('successfully');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fcm_token\": \"new_updated_fcm_token_12345\",\n    \"device_id\": \"{{test_device_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register-device",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register-device"
+							]
+						},
+						"description": "Actualiza el token FCM de un dispositivo ya registrado"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de dispositivos y tokens FCM"
+		},
+        {
+			"name": "🔔 Push Notifications",
+			"item": [
+				{
+					"name": "Send Push to All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Push notification sent\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success_count');",
+									"    pm.expect(jsonData).to.have.property('failure_count');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"📢 Push Notification Test\",\n    \"body\": \"Esta es una notificación push de prueba enviada a todos los usuarios desde Postman. Timestamp: {{$timestamp}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-push-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-push-notification"
+							]
+						},
+						"description": "Envía una notificación push a todos los dispositivos registrados"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Push to Specific User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Push sent to specific user\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('sent');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"🎯 Notificación Personal\",\n    \"body\": \"Esta notificación es solo para ti. ¡Revisa los detalles en la app!\",\n    \"user_id\": {{user_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-push-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-push-notification"
+							]
+						},
+						"description": "Envía una notificación push a un usuario específico por ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Push by Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Push sent by username\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('sent');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"👋 Hola {{username}}!\",\n    \"body\": \"Notificación enviada específicamente para el usuario {{username}}. ¡Tap para ver más detalles!\",\n    \"username\": \"{{username}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-push-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-push-notification"
+							]
+						},
+						"description": "Envía una notificación push a un usuario específico por username"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para envío de notificaciones push nativas"
+		},
+        {
+			"name": "📢 Internal Notifications",
+			"item": [
+				{
+					"name": "Send Internal to All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Internal notification sent\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('count');",
+									"    pm.expect(jsonData.message).to.include('sent');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"🔔 Notificación Interna Global\",\n    \"message\": \"Esta es una notificación interna que aparece en la campanita de la app. Se envía a todos los usuarios registrados. Timestamp: {{$timestamp}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-internal-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-internal-notification"
+							]
+						},
+						"description": "Envía una notificación interna a todos los usuarios (aparece en la campanita)"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Internal to Specific User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Internal notification sent to user\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.count).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"🎯 Mensaje Personal Interno\",\n    \"message\": \"Esta notificación interna es solo para ti. Contiene información importante que debes revisar. No se envía como push notification, solo aparece en la campanita de la app.\",\n    \"user_id\": {{user_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-internal-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-internal-notification"
+							]
+						},
+						"description": "Envía una notificación interna a un usuario específico por ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Internal by Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Internal sent by username\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.count).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"📝 Actualización para {{username}}\",\n    \"message\": \"Hola {{username}}, esta es una notificación interna específica para tu cuenta. Contiene actualizaciones importantes sobre tu perfil y configuración.\",\n    \"username\": \"{{username}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-internal-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-internal-notification"
+							]
+						},
+						"description": "Envía una notificación interna a un usuario específico por username"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Internal Notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has notifications array\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('notifications');",
+									"    pm.expect(jsonData.notifications).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/internal-notifications",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"internal-notifications"
+							]
+						},
+						"description": "Obtiene todas las notificaciones internas del usuario autenticado"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Notification as Read",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Notification marked as read\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('read');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/internal-notifications/1/read",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"internal-notifications",
+								"1",
+								"read"
+							]
+						},
+						"description": "Marca una notificación específica como leída. Cambiar el ID por uno real."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para notificaciones internas (aparecen en la campanita de la app)"
+		},
+        {
+			"name": "🚨 Error Scenarios",
+			"item": [
+				{
+					"name": "Unauthorized Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Error message about credentials\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail).to.include('credentials');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/internal-notifications",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"internal-notifications"
+							]
+						},
+						"description": "Intenta acceder a un endpoint protegido sin token de autorización"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Invalid credentials message\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail).to.include('Incorrect');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"invalid_user\",\n    \"password\": \"wrong_password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Intenta hacer login con credenciales inválidas"
+					},
+					"response": []
+				},
+				{
+					"name": "Duplicate User Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Duplicate user error\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail).to.include('already registered');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"email\": \"admin@test.com\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Intenta registrar un usuario que ya existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Push to Non-existent User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"No devices found message\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail).to.include('No devices found');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Test Notification\",\n    \"body\": \"This should fail\",\n    \"username\": \"non_existent_user_12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/send-push-notification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"send-push-notification"
+							]
+						},
+						"description": "Intenta enviar notificación a usuario que no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para probar escenarios de error y validaciones"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script que se ejecuta antes de cada request",
+					"console.log('Executing request to: ' + pm.request.url);",
+					"",
+					"// Verificar si existe base_url",
+					"if (!pm.environment.get('base_url')) {",
+					"    pm.environment.set('base_url', 'http://localhost:8000');",
+					"    console.log('Set default base_url to localhost:8000');",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script que se ejecuta después de cada request",
+					"console.log('Response status: ' + pm.response.status);",
+					"console.log('Response time: ' + pm.response.responseTime + 'ms');",
+					"",
+					"// Log de errores si el status no es exitoso",
+					"if (pm.response.code >= 400) {",
+					"    console.log('Error response: ' + pm.response.text());",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "test_username",
+			"value": "testuser_{{$randomInt}}",
+			"type": "string"
+		},
+		{
+			"key": "test_email",
+			"value": "test_{{$randomInt}}@example.com",
+			"type": "string"
+		},
+		{
+			"key": "test_password",
+			"value": "password123",
+			"type": "string"
+		},
+		{
+			"key": "test_fcm_token",
+			"value": "fake_fcm_token_{{$randomAlphaNumeric}}",
+			"type": "string"
+		},
+		{
+			"key": "test_device_id",
+			"value": "device_{{$randomAlphaNumeric}}",
+			"type": "string"
+		}
+	]
+}
