@@ -353,3 +353,17 @@ Este proyecto es una demostración técnica y está disponible para fines educat
 **💡 ¿Listo para comenzar?** Revisa la documentación específica de cada componente y sigue el Quick Start guide para tener la aplicación funcionando en minutos.
 
 *Construido con ❤️ para demostrar las mejores prácticas en desarrollo de aplicaciones móviles con notificaciones push.*
+
+
+# Navegar a tu carpeta del proyecto
+cd TestNotifi/backend
+
+# Crear entorno virtual
+python -m venv venv
+
+# O si tienes múltiples versiones de Python
+CMD:
+    venv\Scripts\activate
+WINDOWS:
+    venv\Scripts\Activate.ps1
+source venv/Scripts/activate

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 import jwt
 import bcrypt
-import cx_Oracle
+import oracledb
 from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials, messaging
@@ -18,6 +18,23 @@ load_dotenv()
 
 app = FastAPI(title="Push Notifications API")
 security = HTTPBearer()
+
+
+# Configuración Oracle
+ORACLE_USER = os.getenv("ORACLE_USER", "")
+ORACLE_PASSWORD = os.getenv("ORACLE_PASSWORD", "")
+ORACLE_DSN = os.getenv("ORACLE_DSN", "localhost:1521/XE")
+ORACLE_JAR_PATH = os.getenv("ORACLE_JAR_PATH", "./instantclient")
+
+# Inicializar Oracle Client al inicio
+try:
+    if ORACLE_JAR_PATH and os.path.exists(ORACLE_JAR_PATH):
+        oracledb.init_oracle_client(lib_dir=os.path.abspath(ORACLE_JAR_PATH))
+        print(f"✅ Oracle Client initialized from: {os.path.abspath(ORACLE_JAR_PATH)}")
+    else:
+        print("⚠️ Oracle Client path not found, using Thin mode")
+except Exception as e:
+    print(f"⚠️ Oracle Client init failed, using Thin mode: {e}")
 
 # Configuración desde variables de entorno
 SENDER_ID = int(os.getenv("SENDER_ID", "0"))
@@ -84,14 +101,18 @@ class InternalNotification(BaseModel):
     user_id: Optional[int] = None
     username: Optional[str] = None
 
-# Conexión a Oracle
+# Conexión a Oracle (actualizada)
 @contextmanager
 def get_db_connection():
     connection = None
     try:
-        connection = cx_Oracle.connect(ORACLE_USER, ORACLE_PASSWORD, ORACLE_DSN)
+        connection = oracledb.connect(
+            user=ORACLE_USER, 
+            password=ORACLE_PASSWORD, 
+            dsn=ORACLE_DSN
+        )
         yield connection
-    except cx_Oracle.Error as e:
+    except oracledb.Error as e:
         print(f"Oracle connection error: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
