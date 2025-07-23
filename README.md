@@ -116,7 +116,7 @@ flutter build apk --release
 
 ## 📚 Documentación Completa
 
-### 📡 [**API Specification**](./api_specs.md)
+### 📡 [**API Specification**](./docs/api_specs.md)
 Documentación completa de todos los endpoints del backend:
 - Autenticación y registro de usuarios
 - Gestión de dispositivos y tokens FCM  
@@ -125,7 +125,7 @@ Documentación completa de todos los endpoints del backend:
 - Ejemplos de requests/responses
 - Códigos de error y troubleshooting
 
-### 📱 [**Frontend Specification**](./front_spec.md)
+### 📱 [**Frontend Specification**](./docs/front_spec.md)
 Documentación técnica del desarrollo Flutter:
 - Arquitectura y estructura del proyecto
 - Sistema de autenticación biométrica
@@ -134,7 +134,7 @@ Documentación técnica del desarrollo Flutter:
 - Configuración de build y deployment
 - Testing y debugging guide
 
-### 🗄️ [**Database Specification**](./ddbb_spec.md)
+### 🗄️ [**Database Specification**](./docs/ddbb_spec.md)
 Especificación completa de la base de datos Oracle:
 - Esquema de tablas y relaciones
 - DDL completo con triggers e índices
@@ -321,9 +321,9 @@ Este proyecto está diseñado como una **demo completa** y **referencia técnica
 ## 📞 Soporte
 
 ### **Documentación Técnica**
-- **[API Specs](./backend/api_specs.md)** - Para desarrollo backend e integración
-- **[Frontend Specs](./frontend/front_spec.md)** - Para desarrollo Flutter y UI
-- **[Database Specs](./ddbb/ddbb_spec.md)** - Para administración de BD y queries
+- **[API Specs](./docs/api_specs.md)** - Para desarrollo backend e integración
+- **[Frontend Specs](./docs/front_spec.md)** - Para desarrollo Flutter y UI
+- **[Database Specs](./docs/ddbb_spec.md)** - Para administración de BD y queries
 
 ### **Issues Comunes**
 Ver las secciones de **Troubleshooting** en cada documento específico para soluciones detalladas.
