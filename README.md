@@ -116,7 +116,7 @@ flutter build apk --release
 
 ## 📚 Documentación Completa
 
-### 📡 [**API Specification**](./docs/api_specs.md)
+### 📡 [**API Specification**](./docs/api_spec.md)
 Documentación completa de todos los endpoints del backend:
 - Autenticación y registro de usuarios
 - Gestión de dispositivos y tokens FCM  
@@ -321,7 +321,7 @@ Este proyecto está diseñado como una **demo completa** y **referencia técnica
 ## 📞 Soporte
 
 ### **Documentación Técnica**
-- **[API Specs](./docs/api_specs.md)** - Para desarrollo backend e integración
+- **[API Specs](./docs/api_spec.md)** - Para desarrollo backend e integración
 - **[Frontend Specs](./docs/front_spec.md)** - Para desarrollo Flutter y UI
 - **[Database Specs](./docs/ddbb_spec.md)** - Para administración de BD y queries
 
