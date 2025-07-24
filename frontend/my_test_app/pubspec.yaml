@@ -15,15 +15,15 @@ dependencies:
   # HTTP requests
   http: ^1.1.0
   
-  # Firebase
-  firebase_core: ^2.24.2
-  firebase_messaging: ^14.7.10
+  # Firebase - Versiones compatibles actualizadas
+  firebase_core: ^2.27.0
+  firebase_messaging: ^14.9.4
   
   # Local notifications
-  flutter_local_notifications: ^16.3.2
+  flutter_local_notifications: ^17.0.0
   
   # Biometric authentication
-  local_auth: ^2.1.7
+  local_auth: ^2.1.8
   
   # Storage
   shared_preferences: ^2.2.2
@@ -32,15 +32,15 @@ dependencies:
   provider: ^6.1.1
   
   # Device info
-  device_info_plus: ^9.1.1
+  device_info_plus: ^10.1.0
   
   # Material icons
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
